@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   applicationName: 'JULI FIFTEEN',
   title: 'JULI FIFTEEN - Mis 15 años',
   description: 'Celebración de los 15 años de Julia Ricci en SUMMUM, Las Varillas, Córdoba. Confirma tu asistencia.',
-  metadataBase: new URL('https://juli-fifteen.vercel.app'),
+  metadataBase: new URL('https://julixv.vercel.app'),
   viewport: 'width=device-width, initial-scale=1.0',
   openGraph: {
     type: 'website',
     title: 'JULI FIFTEEN - Mis 15 años',
     description: 'Celebración de los 15 años de Julia Ricci en SUMMUM, Las Varillas, Córdoba.',
-    url: 'https://juli-fifteen.vercel.app/',
+    url: 'https://julixv.vercel.app/',
     siteName: 'JULI FIFTEEN',
     images: [
       {
