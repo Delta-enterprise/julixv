@@ -1,10 +1,13 @@
+/* =========================================================
+ * juli.css
+ * Todos los estilos de la invitación de 15 años de Juli.
+ * Scopeados bajo .juli-root para no pisar Tailwind.
+ * ======================================================= */
+
+/* ── Fuentes ───────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;800;900&family=Boldonse&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
 
-/* =========================================================
- * Todas las reglas dentro de .juli-root para no pisar Tailwind
- * En juli-page.tsx el div wrapper tiene className="juli-root"
- * =======================================================*/
-
+/* ── Variables ─────────────────────────────────────────── */
 .juli-root {
   --bg: #150216;
   --red: #e91c01;
@@ -14,27 +17,33 @@
   --paper: #f5fcff;
   --accent: #bf60be;
   --marquee-speed: 32s;
+
   --display: 'Big Shoulders Display', 'Geist', system-ui;
   --display2: 'Boldonse', 'Big Shoulders Display', system-ui;
   --body: 'Geist', system-ui;
   --mono: 'Geist Mono', ui-monospace, monospace;
-
-  background: var(--bg);
-  color: var(--paper);
-  font-family: var(--body);
-  font-weight: 400;
-  letter-spacing: .01em;
-  min-height: 100vh;
-  overflow-x: hidden;
-  isolation: isolate;
-  position: relative;
 }
 
-/* Reset interno — no toca nada fuera de .juli-root */
-.juli-root *, .juli-root *::before, .juli-root *::after {
+/* ── Reset base ─────────────────────────────────────────── */
+.juli-root *,
+.juli-root *::before,
+.juli-root *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.juli-root {
+  background: var(--bg);
+  color: var(--paper);
+  font-family: var(--body);
+  min-height: 100vh;
+  width: 100%;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
 }
 
 .juli-root a {
@@ -61,8 +70,15 @@
   max-width: 100%;
 }
 
-/* Background field */
-.juli-root.app::before {
+/* ── Background field ─────────────────────────────────── */
+.juli-root .app {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  isolation: isolate;
+}
+
+.juli-root .app::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -74,11 +90,23 @@
     var(--bg);
 }
 
+.juli-root .app.has-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.12;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+}
+
 /* =========================================================
  * MARQUEE
- * =======================================================*/
+ * ======================================================= */
 .juli-root .marquee {
   position: relative;
+  width: 100%;
   border-top: 1px solid color-mix(in oklab, var(--paper) 16%, transparent);
   border-bottom: 1px solid color-mix(in oklab, var(--paper) 16%, transparent);
   overflow: hidden;
@@ -89,10 +117,10 @@
   display: flex;
   gap: 36px;
   white-space: nowrap;
-  animation: marquee var(--marquee-speed) linear infinite;
+  animation: juli-marquee var(--marquee-speed) linear infinite;
 }
 
-.juli-root .marquee-rev .marquee-track {
+.juli-root .marquee--rev .marquee-track {
   animation-direction: reverse;
 }
 
@@ -107,7 +135,7 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(20px, 2.2vw, 32px);
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -117,17 +145,18 @@
   line-height: 1;
 }
 
-@keyframes marquee {
+@keyframes juli-marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-33.333%); }
 }
 
 /* =========================================================
  * HERO
- * =======================================================*/
+ * ======================================================= */
 .juli-root .hero {
   position: relative;
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -135,8 +164,10 @@
 .juli-root .hero-grid {
   flex: 1;
   display: grid;
+  width: 100%;
   grid-template-columns: 60px 1fr 60px;
   align-items: stretch;
+  padding: 0;
   min-height: calc(100vh - 60px);
 }
 
@@ -148,7 +179,7 @@
   overflow: hidden;
 }
 
-.juli-root .hero-side-right {
+.juli-root .hero-side--right {
   border-right: none;
   border-left: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
 }
@@ -158,13 +189,13 @@
   transform: rotate(180deg);
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .32em;
+  letter-spacing: 0.32em;
   color: color-mix(in oklab, var(--paper) 55%, transparent);
   white-space: nowrap;
   text-transform: uppercase;
 }
 
-.juli-root .hero-side-right .hero-side-text {
+.juli-root .hero-side--right .hero-side-text {
   transform: none;
 }
 
@@ -176,6 +207,8 @@
   padding: clamp(28px, 3.5vw, 48px) clamp(20px, 4vw, 64px) clamp(28px, 3.5vw, 48px);
   gap: 24px;
   overflow: hidden;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Diamond field */
@@ -183,6 +216,7 @@
   position: absolute;
   inset: -30% -25%;
   pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
   overflow: hidden;
 }
@@ -203,7 +237,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  animation: latticeDrift 32s linear infinite;
+  animation: juli-lattice-drift 32s linear infinite;
   will-change: transform;
 }
 
@@ -211,6 +245,9 @@
   display: grid;
   grid-template-columns: repeat(var(--cols), 1fr);
   grid-auto-rows: clamp(28px, 3.4vw, 44px);
+  column-gap: 0;
+  row-gap: 0;
+  padding: 0;
   width: 100%;
 }
 
@@ -220,27 +257,31 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  animation: diamondWobble ease-in-out infinite alternate;
+  animation: juli-diamond-wobble ease-in-out infinite alternate;
   will-change: transform, opacity;
 }
 
-.juli-root .diamond {
+.juli-root .diamond-cell .diamond {
   width: clamp(12px, 1.3vw, 20px);
   height: auto;
   filter: drop-shadow(0 0 6px color-mix(in oklab, currentColor 25%, transparent));
 }
 
-@keyframes latticeDrift {
+@keyframes juli-lattice-drift {
   from { transform: translateY(0); }
   to   { transform: translateY(-50%); }
 }
 
-@keyframes diamondWobble {
-  0%   { opacity: .35; transform: translate(var(--bx), var(--by)) rotate(var(--brot)) scale(calc(var(--bscale) * .9)); }
-  25%  { opacity: .75; transform: translate(calc(var(--bx) + var(--dx)), calc(var(--by) + var(--dy))) rotate(calc(var(--brot) + var(--rot))) scale(calc(var(--bscale) * 1.1)); }
-  50%  { opacity: .5;  transform: translate(calc(var(--bx) - var(--dx) * .7), calc(var(--by) + var(--dy) * .6)) rotate(calc(var(--brot) - var(--rot) * .5)) scale(var(--bscale)); }
-  75%  { opacity: .85; transform: translate(calc(var(--bx) + var(--dx) * .4), calc(var(--by) - var(--dy) * .8)) rotate(calc(var(--brot) + var(--rot) * .7)) scale(calc(var(--bscale) * 1.15)); }
-  100% { opacity: .4;  transform: translate(var(--bx), var(--by)) rotate(var(--brot)) scale(var(--bscale)); }
+@keyframes juli-diamond-wobble {
+  0%   { opacity: 0.35; transform: translate(var(--bx), var(--by)) rotate(var(--brot)) scale(calc(var(--bscale) * 0.9)); }
+  25%  { opacity: 0.75; transform: translate(calc(var(--bx) + var(--dx)), calc(var(--by) + var(--dy))) rotate(calc(var(--brot) + var(--rot))) scale(calc(var(--bscale) * 1.1)); }
+  50%  { opacity: 0.5;  transform: translate(calc(var(--bx) - var(--dx) * 0.7), calc(var(--by) + var(--dy) * 0.6)) rotate(calc(var(--brot) - var(--rot) * 0.5)) scale(var(--bscale)); }
+  75%  { opacity: 0.85; transform: translate(calc(var(--bx) + var(--dx) * 0.4), calc(var(--by) - var(--dy) * 0.8)) rotate(calc(var(--brot) + var(--rot) * 0.7)) scale(calc(var(--bscale) * 1.15)); }
+  100% { opacity: 0.4;  transform: translate(var(--bx), var(--by)) rotate(var(--brot)) scale(var(--bscale)); }
+}
+
+.juli-root .diamond {
+  display: block;
 }
 
 /* JXV badge */
@@ -255,14 +296,14 @@
   border: 1px solid color-mix(in oklab, var(--paper) 25%, transparent);
   background: color-mix(in oklab, var(--bg) 60%, transparent);
   backdrop-filter: blur(8px);
-  animation: fadeDown .9s .15s both;
+  animation: juli-fade-down 0.9s 0.15s both;
 }
 
 .juli-root .jxv-mark {
   font-family: var(--display);
   font-weight: 900;
   font-size: 20px;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   color: var(--accent);
   font-style: italic;
 }
@@ -270,16 +311,16 @@
 .juli-root .jxv-sub {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
 }
 
-@keyframes fadeDown {
+@keyframes juli-fade-down {
   from { opacity: 0; transform: translateY(-12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Lockup JULIA ⬨ RICCI */
+/* JULIA ⬨ RICCI lockup */
 .juli-root .lockup {
   position: relative;
   z-index: 3;
@@ -288,14 +329,14 @@
   justify-content: center;
   gap: clamp(16px, 2.5vw, 32px);
   margin-top: clamp(12px, 2vw, 24px);
-  animation: fadeDown 1s .25s both;
+  animation: juli-fade-down 1s 0.25s both;
 }
 
 .juli-root .lockup-word {
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(28px, 3.4vw, 52px);
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--paper);
 }
@@ -305,6 +346,11 @@
   height: clamp(40px, 5vw, 72px);
   width: auto;
   flex: 0 0 auto;
+}
+
+.juli-root .lockup-mark .diamond {
+  height: 100%;
+  width: auto;
 }
 
 /* Logo stack */
@@ -317,28 +363,30 @@
   justify-content: center;
   flex: 1;
   will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .juli-root .logo-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  line-height: .78;
+  text-align: center;
+  line-height: 0.78;
 }
 
 .juli-root .logo-word {
   position: relative;
   font-family: var(--display);
   font-weight: 900;
-  letter-spacing: -.025em;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
   color: var(--paper);
 }
 
-.juli-root .logo-word-juli {
+.juli-root .logo-word--juli {
   font-size: clamp(140px, 28vw, 460px);
-  line-height: .86;
-  animation: slideUpBig 1.3s cubic-bezier(.16, 1, .3, 1) both;
+  line-height: 0.86;
+  animation: juli-slide-up-big 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .juli-root .logo-fifteen-overlay {
@@ -349,22 +397,23 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(28px, 4.6vw, 72px);
-  letter-spacing: .04em;
-  color: var(--bg);
+  letter-spacing: 0.04em;
+  color: var(--accent);
   background: var(--accent);
+  color: var(--bg);
   padding: 6px clamp(12px, 1.8vw, 24px) 4px;
   white-space: nowrap;
   box-shadow: 0 0 0 4px var(--bg);
-  animation: tagSlam 1.1s .9s cubic-bezier(.34, 1.56, .64, 1) both;
+  animation: juli-tag-slam 1.1s 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-@keyframes slideUpBig {
-  from { opacity: 0; transform: translateY(80px) scale(.95); }
+@keyframes juli-slide-up-big {
+  from { opacity: 0; transform: translateY(80px) scale(0.95); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes tagSlam {
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.4) rotate(-8deg); }
+@keyframes juli-tag-slam {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(-8deg); }
   60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(2deg); }
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
 }
@@ -378,7 +427,7 @@
   align-items: center;
   padding-top: 24px;
   border-top: 1px solid color-mix(in oklab, var(--paper) 15%, transparent);
-  animation: fadeUp 1s .6s both;
+  animation: juli-fade-up 1s 0.6s both;
 }
 
 .juli-root .hero-bottom-block {
@@ -387,11 +436,16 @@
   gap: 6px;
 }
 
-.juli-root .hero-bottom-block-center {
+.juli-root .hero-bottom-block--center {
   align-items: center;
 }
 
-.juli-root .hero-bottom-block-right {
+.juli-root .hero-bottom-block--center .diamond {
+  height: 36px;
+  width: auto;
+}
+
+.juli-root .hero-bottom-block--right {
   text-align: right;
   align-items: flex-end;
 }
@@ -399,7 +453,7 @@
 .juli-root .hb-key {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   color: color-mix(in oklab, var(--paper) 60%, transparent);
 }
@@ -408,16 +462,21 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(20px, 2vw, 28px);
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-@keyframes fadeUp {
+@keyframes juli-fade-up {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Hero banner */
+/* Hero photo (hidden) */
+.juli-root .hero-photo {
+  display: none;
+}
+
+/* Hero banner wrap */
 .juli-root .hero-banner-wrap {
   position: absolute;
   left: 50%;
@@ -426,14 +485,14 @@
   transform: translateX(-50%);
   z-index: 6;
   pointer-events: none;
-  animation: bannerRise 1.6s 1.1s cubic-bezier(.16, 1, .3, 1) both;
+  animation: juli-banner-rise 1.6s 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
-    linear-gradient(to top, transparent 0%, #000 18%);
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
     linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
-    linear-gradient(to top, transparent 0%, #000 18%);
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
   mask-composite: intersect;
   isolation: isolate;
 }
@@ -445,95 +504,39 @@
   height: auto;
   user-select: none;
   will-change: transform, filter;
-  animation: heroGlitch 5s 1.5s infinite;
+  animation: juli-hero-glitch 5s 1.5s infinite;
 }
 
-.juli-root .hero-banner-slice {
-  position: absolute;
-  left: 0;
-  top: 0;
+/* WebGL canvas */
+.juli-root .hero-banner-gl {
+  position: relative;
+  display: block;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.juli-root .hero-banner-gl.is-ready {
+  opacity: 1;
+}
+
+.juli-root .hero-banner-gl-canvas {
   display: block;
   width: 100%;
   height: auto;
-  user-select: none;
-  pointer-events: none;
-  opacity: 0;
-  mix-blend-mode: screen;
-  will-change: transform, opacity, filter;
-  animation: sliceShift 5s 1.5s infinite;
 }
 
-.juli-root .hero-banner-scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0,
-    transparent 2px,
-    rgba(255,255,255,.18) 2px,
-    rgba(255,255,255,.18) 3px
-  );
-  mix-blend-mode: overlay;
-  opacity: 0;
-  animation: scanlinesFlash 5s 1.5s infinite;
-}
-
-.juli-root .hero-banner-noise {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='2.4' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: 240px;
-  mix-blend-mode: overlay;
-  opacity: 0;
-  animation: noiseFlash 5s 1.5s infinite;
-}
-
-@keyframes bannerRise {
+@keyframes juli-banner-rise {
   from { opacity: 0; transform: translate(-50%, 40px); }
   to   { opacity: 1; transform: translate(-50%, 0); }
 }
 
-@keyframes heroGlitch {
-  0%, 55%, 100% { transform: translate(0,0); filter: drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  60%  { transform: translate(-3px,1px);   filter: drop-shadow(-2px 0 0 var(--red)) drop-shadow(2px 0 0 var(--celeste)) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  65%  { transform: translate(6px,-2px);   filter: drop-shadow(-5px 0 0 var(--red)) drop-shadow(5px 0 0 var(--celeste)) contrast(1.15) saturate(1.3) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  72%  { transform: translate(-4px,2px) scaleX(1.01); filter: drop-shadow(-6px 0 0 var(--magenta)) drop-shadow(6px 0 0 var(--blue)) contrast(1.2) saturate(1.4) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  80%  { transform: translate(5px,-1px);   filter: drop-shadow(-4px 0 0 var(--celeste)) drop-shadow(4px 0 0 var(--red)) contrast(1.1) saturate(1.2) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  87%  { transform: translate(-2px,0);     filter: drop-shadow(-2px 0 0 var(--magenta)) drop-shadow(2px 0 0 var(--celeste)) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-  93%  { transform: translate(1px,0);      filter: drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
-}
-
-@keyframes sliceShift {
-  0%, 55%, 100% { opacity: 0; transform: translateX(0); filter: none; }
-  60%  { opacity: .3;  transform: translateX(calc(var(--shift-x) * .3));  filter: hue-rotate(calc(var(--slice-hue) * .3)); }
-  65%  { opacity: .7;  transform: translateX(calc(var(--shift-x) * .7));  filter: hue-rotate(calc(var(--slice-hue) * .6)) saturate(1.4); }
-  72%  { opacity: .9;  transform: translateX(var(--shift-x));             filter: hue-rotate(var(--slice-hue)) saturate(1.5) contrast(1.2); }
-  78%  { opacity: .85; transform: translateX(calc(var(--shift-x) * -.6)); filter: hue-rotate(calc(var(--slice-hue) * -.8)) saturate(1.3); }
-  84%  { opacity: .6;  transform: translateX(calc(var(--shift-x) * .4));  filter: hue-rotate(calc(var(--slice-hue) * .5)); }
-  90%  { opacity: .25; transform: translateX(calc(var(--shift-x) * .15)); }
-  93%  { opacity: 0;   transform: translateX(0); filter: none; }
-}
-
-@keyframes scanlinesFlash {
-  0%, 55%, 100% { opacity: 0; }
-  62% { opacity: .35; }
-  70% { opacity: .7; }
-  78% { opacity: .85; }
-  84% { opacity: .55; }
-  90% { opacity: .2; }
-  93% { opacity: 0; }
-}
-
-@keyframes noiseFlash {
-  0%, 55%, 100% { opacity: 0;  background-position: 0 0; }
-  62% { opacity: .3;  background-position: 30px 10px; }
-  70% { opacity: .6;  background-position: -40px 60px; }
-  78% { opacity: .75; background-position: 80px -50px; }
-  84% { opacity: .45; background-position: -20px 30px; }
-  90% { opacity: .2;  background-position: 50px 0; }
-  93% { opacity: 0;   background-position: 0 0; }
+@keyframes juli-hero-glitch {
+  0%, 55%, 100%  { transform: translate(0, 0); filter: drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
+  65%            { transform: translate(6px, -2px); filter: drop-shadow(-5px 0 0 var(--red)) drop-shadow(5px 0 0 var(--celeste)) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
+  72%            { transform: translate(-4px, 2px); filter: drop-shadow(-6px 0 0 var(--magenta)) drop-shadow(6px 0 0 var(--blue)) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
+  80%            { transform: translate(5px, -1px); filter: drop-shadow(-4px 0 0 var(--celeste)) drop-shadow(4px 0 0 var(--red)) drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
+  87%            { transform: translate(0, 0); filter: drop-shadow(0 -30px 60px color-mix(in oklab, var(--bg) 80%, transparent)); }
 }
 
 /* Scroll cue */
@@ -548,20 +551,20 @@
   gap: 6px;
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
-  animation: bob 2.2s ease-in-out infinite;
+  animation: juli-bob 2.2s ease-in-out infinite;
   z-index: 5;
 }
 
-@keyframes bob {
+@keyframes juli-bob {
   0%, 100% { transform: translate(-50%, 0); }
   50%      { transform: translate(-50%, 8px); }
 }
 
 /* =========================================================
  * DATE SECTION
- * =======================================================*/
+ * ======================================================= */
 .juli-root .date-section {
   position: relative;
   padding: clamp(80px, 12vw, 160px) clamp(20px, 4vw, 64px);
@@ -574,7 +577,7 @@
   gap: 12px;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 48px;
 }
@@ -584,10 +587,11 @@
   height: 10px;
   border-radius: 50%;
   background: var(--accent);
-  animation: pulse 1.6s ease-out infinite;
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: juli-pulse 1.6s ease-out infinite;
 }
 
-@keyframes pulse {
+@keyframes juli-pulse {
   0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 70%, transparent); }
   70%  { box-shadow: 0 0 0 18px transparent; }
   100% { box-shadow: 0 0 0 0 transparent; }
@@ -596,7 +600,8 @@
 .juli-root .date-stack {
   display: flex;
   flex-direction: column;
-  line-height: .86;
+  gap: 0;
+  line-height: 0.86;
 }
 
 .juli-root .date-row {
@@ -607,13 +612,13 @@
   flex-wrap: wrap;
 }
 
-.juli-root .date-row-mid { justify-content: flex-end; }
-.juli-root .date-row-end { justify-content: space-between; }
+.juli-root .date-row--mid  { justify-content: flex-end; }
+.juli-root .date-row--end  { justify-content: space-between; }
 
 .juli-root .date-label {
   font-family: var(--mono);
   font-size: clamp(12px, 1.2vw, 16px);
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   align-self: flex-end;
   color: color-mix(in oklab, var(--paper) 65%, transparent);
@@ -624,8 +629,8 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(120px, 22vw, 360px);
-  letter-spacing: -.04em;
-  line-height: .78;
+  letter-spacing: -0.04em;
+  line-height: 0.78;
   color: var(--paper);
 }
 
@@ -636,38 +641,38 @@
   align-self: flex-end;
   padding-bottom: clamp(8px, 1.5vw, 20px);
   color: var(--accent);
-  line-height: .78;
+  line-height: 0.78;
 }
 
 .juli-root .date-time-num {
   font-family: var(--display2);
   font-weight: 400;
   font-size: clamp(64px, 11vw, 180px);
-  letter-spacing: -.04em;
+  letter-spacing: -0.04em;
   font-style: italic;
 }
 
 .juli-root .date-time-unit {
   font-family: var(--mono);
   font-size: clamp(14px, 1.4vw, 20px);
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   font-weight: 500;
   padding-bottom: clamp(14px, 2vw, 28px);
 }
 
-.juli-root .date-mega-accent .date-month {
+.juli-root .date-mega--accent .date-month {
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(120px, 22vw, 360px);
-  letter-spacing: -.04em;
-  line-height: .78;
+  letter-spacing: -0.04em;
+  line-height: 0.78;
   -webkit-text-stroke: 2px var(--accent);
   color: transparent;
   font-style: italic;
 }
 
 /* Rolling number */
-.juli-root .rolling-number { display: inline-flex; }
+.juli-root .rolling-number  { display: inline-flex; }
 
 .juli-root .digit-roll {
   display: inline-block;
@@ -680,16 +685,11 @@
 .juli-root .digit-stack {
   display: flex;
   flex-direction: column;
-  transition: transform 1.2s cubic-bezier(.16, 1, .3, 1);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.juli-root .digit-cell {
-  display: block;
-  height: 1em;
-  line-height: 1;
-}
-
-.juli-root .digit-sep { display: inline-block; }
+.juli-root .digit-cell { display: block; height: 1em; line-height: 1; }
+.juli-root .digit-sep  { display: inline-block; }
 
 /* Countdown */
 .juli-root .countdown {
@@ -701,7 +701,7 @@
 .juli-root .countdown-label {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 20px;
 }
@@ -725,27 +725,30 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(48px, 7vw, 120px);
-  line-height: .9;
-  letter-spacing: -.03em;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
 }
 
 .juli-root .cd-label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 65%, transparent);
 }
 
 /* =========================================================
  * GALLERY BAND
- * =======================================================*/
-.juli-root .gallery { position: relative; }
+ * ======================================================= */
+.juli-root .gallery {
+  position: relative;
+  margin-top: 0;
+}
 
 .juli-root .gallery-grid {
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr 1fr;
-  grid-template-rows: 280px 280px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 420px;
   gap: 2px;
   padding: 2px clamp(20px, 4vw, 64px);
   background: color-mix(in oklab, var(--paper) 8%, transparent);
@@ -757,17 +760,13 @@
   background: var(--bg);
 }
 
-.juli-root .gallery-cell-tall   { grid-row: span 2; }
-.juli-root .gallery-cell-wide   { grid-row: span 1; grid-column: span 1; }
-.juli-root .gallery-cell-square { grid-row: span 2; }
-
 .juli-root .gallery-tag {
   position: absolute;
   left: 10px;
   top: 10px;
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   padding: 4px 8px;
   background: var(--bg);
   color: var(--paper);
@@ -775,101 +774,12 @@
 }
 
 /* =========================================================
- * IMAGE SLOT
- * =======================================================*/
-.juli-root .image-slot {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border: 1px solid color-mix(in oklab, var(--paper) 22%, transparent);
-  background: color-mix(in oklab, var(--paper) 3%, transparent);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.juli-root .image-drag-over {
-  border-color: var(--accent);
-  background: color-mix(in oklab, var(--accent) 12%, transparent);
-}
-
-.juli-root .image-slot-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  user-select: none;
-  width: 100%;
-  height: 100%;
-}
-
-.juli-root .image-slot-icon { font-size: 32px; opacity: .6; }
-
-.juli-root .image-slot-placeholder {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--paper) 60%, transparent);
-}
-
-.juli-root .image-slot-hint {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: color-mix(in oklab, var(--paper) 50%, transparent);
-}
-
-.juli-root .image-slot-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.juli-root .image-slot-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.juli-root .image-slot-controls {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  display: flex;
-  gap: 6px;
-  opacity: 0;
-  transition: opacity .2s ease;
-}
-
-.juli-root .image-filled:hover .image-slot-controls { opacity: 1; }
-
-.juli-root .image-slot-btn {
-  flex: 1;
-  padding: 6px 12px;
-  background: rgba(0,0,0,.7);
-  color: #fff;
-  border-radius: 4px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  cursor: pointer;
-  border: none;
-}
-
-.juli-root .image-slot-btn:hover { background: rgba(0,0,0,.9); }
-
-/* =========================================================
  * LOCATION
- * =======================================================*/
+ * ======================================================= */
 .juli-root .location {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 0;
   padding: clamp(80px, 12vw, 160px) clamp(20px, 4vw, 64px);
   border-top: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
 }
@@ -881,7 +791,7 @@
 .juli-root .loc-eyebrow {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 24px;
 }
@@ -890,8 +800,8 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(80px, 15vw, 220px);
-  line-height: .82;
-  letter-spacing: -.04em;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
   margin-bottom: 48px;
   text-transform: uppercase;
 }
@@ -904,13 +814,15 @@
 .juli-root .loc-line span {
   display: inline-block;
   transform: translateY(110%);
-  transition: transform 1s cubic-bezier(.16, 1, .3, 1);
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.juli-root .loc-title.is-in .loc-line span { transform: translateY(0); }
+.juli-root .loc-title.is-in .loc-line span {
+  transform: translateY(0);
+}
 
 .juli-root .loc-title.is-in .loc-line:nth-child(2) span {
-  transition-delay: .15s;
+  transition-delay: 0.15s;
   color: var(--accent);
   font-style: italic;
 }
@@ -933,7 +845,7 @@
 .juli-root .loc-key {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   color: color-mix(in oklab, var(--paper) 60%, transparent);
   align-self: center;
 }
@@ -942,7 +854,7 @@
   font-family: var(--display);
   font-weight: 800;
   font-size: 22px;
-  letter-spacing: .01em;
+  letter-spacing: 0.01em;
 }
 
 .juli-root .loc-cta {
@@ -952,11 +864,11 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: 18px;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   padding: 18px 26px;
   border: 1.5px solid var(--paper);
   text-transform: uppercase;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .juli-root .loc-cta:hover {
@@ -983,7 +895,7 @@
   width: 100%;
   height: 100%;
   border: 0;
-  filter: invert(.92) hue-rotate(180deg) saturate(.7) brightness(.9);
+  filter: invert(0.92) hue-rotate(180deg) saturate(0.7) brightness(0.9);
 }
 
 .juli-root .loc-map-overlay {
@@ -1017,11 +929,11 @@
   inset: -12px;
   border-radius: 50%;
   border: 2px solid var(--accent);
-  animation: pinPulse 2s ease-out infinite;
+  animation: juli-pin-pulse 2s ease-out infinite;
 }
 
-@keyframes pinPulse {
-  0%   { transform: scale(.5); opacity: 1; }
+@keyframes juli-pin-pulse {
+  0%   { transform: scale(0.5); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
 }
 
@@ -1033,7 +945,7 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: 14px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   color: var(--paper);
   white-space: nowrap;
   background: var(--bg);
@@ -1043,7 +955,7 @@
 
 /* =========================================================
  * RSVP
- * =======================================================*/
+ * ======================================================= */
 .juli-root .rsvp {
   padding: clamp(80px, 12vw, 160px) clamp(20px, 4vw, 64px);
   border-top: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
@@ -1051,12 +963,14 @@
   margin: 0 auto;
 }
 
-.juli-root .rsvp-head { margin-bottom: 64px; }
+.juli-root .rsvp-head {
+  margin-bottom: 64px;
+}
 
 .juli-root .rsvp-eyebrow {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 24px;
 }
@@ -1065,8 +979,8 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(60px, 11vw, 160px);
-  line-height: .86;
-  letter-spacing: -.03em;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
@@ -1075,6 +989,10 @@
 .juli-root .rsvp-title span {
   display: block;
   overflow: hidden;
+}
+
+.juli-root .rsvp-title span::before {
+  content: attr(data-x);
 }
 
 .juli-root .rsvp-title.is-in span:nth-child(2) {
@@ -1103,7 +1021,7 @@
 .juli-root .rsvp-deadline-label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 75%, transparent);
 }
 
@@ -1111,7 +1029,7 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: 22px;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   color: var(--accent);
   text-transform: uppercase;
 }
@@ -1122,13 +1040,14 @@
   gap: 24px;
 }
 
+/* Guest card */
 .juli-root .guest-card {
   border: 1px solid color-mix(in oklab, var(--paper) 18%, transparent);
   padding: 32px clamp(20px, 3vw, 40px);
   background: color-mix(in oklab, var(--paper) 3%, transparent);
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity .8s cubic-bezier(.16, 1, .3, 1), transform .8s cubic-bezier(.16, 1, .3, 1);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .juli-root .guest-card.is-in {
@@ -1149,7 +1068,7 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: 48px;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   line-height: 1;
   color: var(--accent);
 }
@@ -1157,7 +1076,7 @@
 .juli-root .guest-card-label {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 75%, transparent);
   flex: 1;
 }
@@ -1169,7 +1088,11 @@
   font-size: 14px;
   display: grid;
   place-items: center;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
+  background: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .juli-root .guest-card-remove:hover {
@@ -1189,12 +1112,14 @@
   gap: 8px;
 }
 
-.juli-root .field-full { grid-column: 1 / -1; }
+.juli-root .field--full {
+  grid-column: 1 / -1;
+}
 
 .juli-root .field-label {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .32em;
+  letter-spacing: 0.32em;
   color: color-mix(in oklab, var(--paper) 65%, transparent);
 }
 
@@ -1207,17 +1132,16 @@
   background: transparent !important;
   border: none !important;
   border-bottom: 1.5px solid color-mix(in oklab, var(--paper) 30%, transparent) !important;
-  padding: 10px 0 !important;
-  font-family: var(--display) !important;
-  font-weight: 700 !important;
-  font-size: 22px !important;
-  letter-spacing: .01em;
-  color: var(--paper) !important;
+  padding: 10px 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  color: var(--paper);
   outline: none !important;
+  transition: border-color 0.2s ease;
   border-radius: 0 !important;
   box-shadow: none !important;
-  transition: border-color .2s ease;
-  width: 100%;
 }
 
 .juli-root .field-input::placeholder {
@@ -1228,13 +1152,12 @@
 }
 
 .juli-root .field-input:focus {
-  border-color: var(--accent) !important;
-  outline: none !important;
-  box-shadow: none !important;
+  border-bottom-color: var(--accent) !important;
 }
 
 .juli-root .seg {
   display: flex;
+  gap: 0;
   border: 1px solid color-mix(in oklab, var(--paper) 25%, transparent);
   width: fit-content;
 }
@@ -1243,15 +1166,27 @@
   padding: 10px 24px;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
-  transition: all .2s ease;
-  border-right: 1px solid color-mix(in oklab, var(--paper) 18%, transparent) !important;
+  transition: all 0.2s ease;
+  border-right: 1px solid color-mix(in oklab, var(--paper) 18%, transparent);
+  background: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
   border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.juli-root .seg-btn:last-child { border-right: none !important; }
-.juli-root .seg-btn.is-on { background: var(--accent) !important; color: var(--paper) !important; }
+.juli-root .seg-btn:last-child {
+  border-right: none !important;
+}
+
+.juli-root .seg-btn.is-on {
+  background: var(--accent) !important;
+  color: var(--paper);
+}
 
 .juli-root .rsvp-actions {
   display: flex;
@@ -1271,10 +1206,13 @@
   font-family: var(--display);
   font-weight: 800;
   font-size: 16px;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
+  background: none !important;
   border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .juli-root .rsvp-add:hover {
@@ -1291,7 +1229,10 @@
   margin-left: 8px;
 }
 
-.juli-root .rsvp-add-plus { font-size: 22px; line-height: 1; }
+.juli-root .rsvp-add-plus {
+  font-size: 22px;
+  line-height: 1;
+}
 
 .juli-root .rsvp-submit {
   display: inline-flex;
@@ -1299,22 +1240,25 @@
   gap: 14px;
   padding: 18px 32px;
   background: var(--accent) !important;
-  color: var(--paper) !important;
+  color: var(--paper);
   font-family: var(--display);
   font-weight: 900;
   font-size: 18px;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   border: 1.5px solid var(--accent) !important;
   border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .juli-root .rsvp-submit:hover {
   background: transparent !important;
-  color: var(--accent) !important;
+  color: var(--accent);
 }
 
+/* RSVP success */
 .juli-root .rsvp-success {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -1329,15 +1273,15 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(120px, 18vw, 260px);
-  line-height: .85;
+  line-height: 0.85;
   color: var(--accent);
-  letter-spacing: -.04em;
+  letter-spacing: -0.04em;
 }
 
 .juli-root .rsvp-success-eyebrow {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 12px;
 }
@@ -1346,8 +1290,8 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(40px, 6vw, 80px);
-  line-height: .9;
-  letter-spacing: -.02em;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin-bottom: 16px;
 }
@@ -1363,19 +1307,22 @@
   border: 1px solid var(--paper) !important;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
+  transition: all 0.2s ease;
+  background: none !important;
   border-radius: 0 !important;
-  transition: all .2s ease;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .juli-root .rsvp-edit:hover {
   background: var(--paper) !important;
-  color: var(--bg) !important;
+  color: var(--bg);
 }
 
 /* =========================================================
  * MESSAGE
- * =======================================================*/
+ * ======================================================= */
 .juli-root .message {
   padding: clamp(80px, 12vw, 160px) clamp(20px, 4vw, 64px);
   border-top: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
@@ -1386,7 +1333,7 @@
 .juli-root .msg-eyebrow {
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 70%, transparent);
   margin-bottom: 24px;
 }
@@ -1395,16 +1342,24 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(60px, 10vw, 150px);
-  line-height: .86;
-  letter-spacing: -.03em;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
   margin-bottom: 48px;
   display: flex;
   flex-direction: column;
 }
 
-.juli-root .msg-title span { display: block; overflow: hidden; }
-.juli-root .msg-title-accent { color: var(--celeste); font-style: italic; }
+.juli-root .msg-title span {
+  display: block;
+  overflow: hidden;
+}
+
+.juli-root .msg-title-accent {
+  color: var(--celeste);
+  font-style: italic;
+  -webkit-text-stroke: 0;
+}
 
 .juli-root .msg-form {
   display: flex;
@@ -1415,21 +1370,26 @@
 .juli-root .msg-textarea {
   background: transparent !important;
   border: 1px solid color-mix(in oklab, var(--paper) 22%, transparent) !important;
-  padding: 24px !important;
-  font-family: var(--body) !important;
+  padding: 24px;
+  font-family: var(--body);
   font-size: 18px;
   line-height: 1.5;
-  color: var(--paper) !important;
+  color: var(--paper);
   resize: vertical;
   outline: none !important;
+  transition: border-color 0.2s ease;
+  min-height: 160px;
   border-radius: 0 !important;
   box-shadow: none !important;
-  min-height: 160px;
-  transition: border-color .2s ease;
 }
 
-.juli-root .msg-textarea::placeholder { color: color-mix(in oklab, var(--paper) 35%, transparent); }
-.juli-root .msg-textarea:focus { border-color: var(--celeste) !important; }
+.juli-root .msg-textarea::placeholder {
+  color: color-mix(in oklab, var(--paper) 35%, transparent);
+}
+
+.juli-root .msg-textarea:focus {
+  border-color: var(--celeste) !important;
+}
 
 .juli-root .msg-bottom {
   display: flex;
@@ -1443,19 +1403,24 @@
   min-width: 240px;
   background: transparent !important;
   border: 1px solid color-mix(in oklab, var(--paper) 22%, transparent) !important;
-  padding: 18px 20px !important;
-  font-family: var(--mono) !important;
+  padding: 18px 20px;
+  font-family: var(--mono);
   font-size: 13px;
-  letter-spacing: .3em;
-  color: var(--paper) !important;
+  letter-spacing: 0.3em;
+  color: var(--paper);
   text-transform: uppercase;
   outline: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 
-.juli-root .msg-from::placeholder { color: color-mix(in oklab, var(--paper) 40%, transparent); }
-.juli-root .msg-from:focus { border-color: var(--celeste) !important; }
+.juli-root .msg-from::placeholder {
+  color: color-mix(in oklab, var(--paper) 40%, transparent);
+}
+
+.juli-root .msg-from:focus {
+  border-color: var(--celeste) !important;
+}
 
 .juli-root .msg-send {
   display: inline-flex;
@@ -1463,20 +1428,22 @@
   gap: 12px;
   padding: 18px 32px;
   background: var(--celeste) !important;
-  color: var(--bg) !important;
+  color: var(--bg);
   font-family: var(--display);
   font-weight: 900;
   font-size: 18px;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  transition: all 0.2s ease;
   border: 1.5px solid var(--celeste) !important;
   border-radius: 0 !important;
-  transition: all .2s ease;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .juli-root .msg-send:hover {
   background: transparent !important;
-  color: var(--celeste) !important;
+  color: var(--celeste);
 }
 
 .juli-root .msg-sent {
@@ -1489,19 +1456,19 @@
   font-size: 80px;
   color: var(--accent);
   margin-bottom: 16px;
-  animation: beat 1.6s ease-in-out infinite;
+  animation: juli-beat 1.6s ease-in-out infinite;
 }
 
-@keyframes beat {
+@keyframes juli-beat {
   0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.15); }
+  50%      { transform: scale(1.15); }
 }
 
 .juli-root .msg-sent p {
   font-family: var(--display);
   font-weight: 900;
   font-size: 32px;
-  letter-spacing: .15em;
+  letter-spacing: 0.15em;
   margin-bottom: 20px;
 }
 
@@ -1510,14 +1477,24 @@
   border: 1px solid var(--paper) !important;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
+  background: none !important;
   border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+.juli-root .msg-again:hover {
+  background: var(--paper) !important;
+  color: var(--bg);
 }
 
 /* =========================================================
  * FOOTER
- * =======================================================*/
+ * ======================================================= */
 .juli-root .footer {
+  padding-top: 0;
   border-top: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
 }
 
@@ -1531,7 +1508,7 @@
 .juli-root .footer-eyebrow {
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .4em;
+  letter-spacing: 0.4em;
   color: color-mix(in oklab, var(--paper) 60%, transparent);
   margin-bottom: 14px;
 }
@@ -1540,8 +1517,8 @@
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(40px, 5vw, 72px);
-  line-height: .86;
-  letter-spacing: -.02em;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
@@ -1551,7 +1528,7 @@
   font-size: 18px;
   line-height: 1.3;
   text-transform: uppercase;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 
 .juli-root .footer-bottom {
@@ -1561,20 +1538,113 @@
   border-top: 1px solid color-mix(in oklab, var(--paper) 14%, transparent);
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .3em;
+  letter-spacing: 0.3em;
   color: color-mix(in oklab, var(--paper) 60%, transparent);
 }
 
 /* =========================================================
+ * image-slot override
+ * ======================================================= */
+.juli-root .image-slot-wrapper {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.juli-root .image-slot-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.juli-root .image-slot-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: color-mix(in oklab, var(--paper) 6%, transparent);
+  border: 1px dashed color-mix(in oklab, var(--paper) 20%, transparent);
+  color: color-mix(in oklab, var(--paper) 55%, transparent);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* =========================================================
+ * GLITCH CLASSES
+ * ======================================================= */
+.juli-root .glitchy-mild {
+  animation: juli-rgb-mild 7s infinite;
+  will-change: text-shadow, transform;
+}
+
+@keyframes juli-rgb-mild {
+  0%, 66%, 100% { text-shadow: none; transform: translate(0, 0); }
+  68%           { text-shadow: -2px 0 var(--red), 2px 0 var(--celeste); transform: translate(-1px, 0); }
+  71%           { text-shadow: 3px 0 var(--red), -3px 0 var(--celeste); transform: translate(1px, 0); }
+  74%           { text-shadow: -1px 0 var(--magenta), 1px 0 var(--celeste); transform: translate(0, 0); }
+  77%           { text-shadow: 2px 0 var(--red), -2px 0 var(--blue); transform: translate(-1px, 0); }
+  80%           { text-shadow: none; transform: translate(0, 0); }
+}
+
+.juli-root .glitchy-flash {
+  animation: juli-rgb-flash 480ms ease-out;
+  will-change: text-shadow, transform;
+}
+
+@keyframes juli-rgb-flash {
+  0%   { text-shadow: -5px 0 var(--red), 5px 0 var(--celeste); transform: translate(2px, -1px); }
+  25%  { text-shadow: 4px 0 var(--red), -4px 0 var(--celeste); transform: translate(-2px, 1px); }
+  55%  { text-shadow: -2px 0 var(--magenta), 2px 0 var(--blue); transform: translate(1px, 0); }
+  80%  { text-shadow: -1px 0 var(--red), 1px 0 var(--celeste); transform: translate(0, 0); }
+  100% { text-shadow: none; transform: translate(0, 0); }
+}
+
+/* =========================================================
  * RESPONSIVE
- * =======================================================*/
+ * ======================================================= */
 @media (max-width: 900px) {
-  .juli-root .hero-grid { grid-template-columns: 40px 1fr 40px; }
-  .juli-root .lockup-word { font-size: 32px; }
-  .juli-root .logo-word-juli { font-size: clamp(96px, 28vw, 200px); }
-  .juli-root .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 200px); }
-  .juli-root .gallery-cell-tall,
-  .juli-root .gallery-cell-square { grid-row: span 1; }
+  .juli-root .hero-grid { grid-template-columns: 32px 1fr 32px; }
+  .juli-root .hero-side-text { font-size: 9px; letter-spacing: 0.28em; }
+  .juli-root .lockup { gap: 12px; margin-top: 8px; }
+  .juli-root .lockup-word { font-size: clamp(20px, 5.5vw, 32px); letter-spacing: 0.08em; }
+  .juli-root .lockup-mark { height: clamp(28px, 6.5vw, 40px); }
+  .juli-root .logo-word--juli { font-size: clamp(120px, 38vw, 280px); }
+  .juli-root .logo-fifteen-overlay { font-size: clamp(20px, 5.8vw, 38px); padding: 4px 10px 3px; }
+  .juli-root .hero-center { padding: 24px 16px 20px; gap: 18px; }
+  .juli-root .hero-bottom-row { padding-top: 16px; }
+  .juli-root .hb-val { font-size: clamp(16px, 3.5vw, 22px); }
+  .juli-root .hb-key { font-size: 9px; letter-spacing: 0.32em; }
+  .juli-root .hero-banner-wrap {
+    width: min(150%, 900px);
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 92%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 92%, transparent 100%);
+  }
+  .juli-root .jxv-badge { padding: 6px 10px; }
+  .juli-root .jxv-mark { font-size: 16px; }
+  .juli-root .jxv-sub { font-size: 9px; letter-spacing: 0.32em; }
+
+  .juli-root .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: initial;
+    grid-auto-rows: 240px;
+  }
+  .juli-root .gallery-cell--tall,
+  .juli-root .gallery-cell--square { grid-row: span 1; grid-column: span 1; }
+  .juli-root .gallery-cell--wide   { grid-row: span 1; grid-column: span 1; }
+
   .juli-root .location { grid-template-columns: 1fr; gap: 48px; }
   .juli-root .loc-left { padding-right: 0; }
   .juli-root .loc-right { min-height: 360px; }
@@ -1582,6 +1652,124 @@
   .juli-root .guest-card-body { grid-template-columns: 1fr; }
   .juli-root .countdown-grid { grid-template-columns: repeat(2, 1fr); }
   .juli-root .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .juli-root .rsvp-success { grid-template-columns: 1fr; gap: 24px; }
+  .juli-root .rsvp-success { grid-template-columns: 1fr; gap: 24px; text-align: left; }
   .juli-root .loc-meta-row { grid-template-columns: 100px 1fr; gap: 12px; }
+}
+
+/* @media (max-width: 560px) {
+  .juli-root .hero { min-height: 100svh; }
+  .juli-root .hero-grid { grid-template-columns: 0 1fr 0; min-height: calc(100svh - 60px); }
+  .juli-root .hero-side { display: none; }
+  .juli-root .hero-center { padding: 18px 14px 18px; gap: 16px; overflow-x:hidden; position: relative; }
+  .juli-root .hero-banner-wrap {
+    width: min(190%, 700px);
+    bottom: 0;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 94%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 94%, transparent 100%);
+  }
+  .juli-root .lockup { margin-top: 2px; gap: 10px; }
+  .juli-root .lockup-word { font-size: clamp(18px, 5vw, 26px); }
+  .juli-root .lockup-mark { height: clamp(24px, 6vw, 32px); }
+  .juli-root .logo-word--juli { font-size: clamp(90px, 46vw, 240px); }
+  .juli-root .logo-fifteen-overlay { font-size: clamp(20px, 6vw, 32px); padding: 3px 9px 2px; }
+  .juli-root .hero-bottom-row {
+    grid-template-columns: 1fr auto;
+    padding-top: 12px;
+    gap: 8px;
+  }
+  .juli-root .hero-bottom-block--center { display: none; }
+  .juli-root .hero-bottom-block--right { text-align: right; }
+  .juli-root .hb-val { font-size: 13px; letter-spacing: 0.02em; }
+  .juli-root .hb-key { font-size: 8px; letter-spacing: 0.3em; }
+
+  .juli-root .marquee { padding: 10px 0; }
+  .juli-root .marquee-text { font-size: 14px; letter-spacing: 0.04em; }
+  .juli-root .marquee-dot { font-size: 12px; }
+
+  .juli-root .date-section,
+  .juli-root .location,
+  .juli-root .rsvp,
+  .juli-root .message {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: clamp(56px, 14vw, 80px);
+    padding-bottom: clamp(56px, 14vw, 80px);
+  }
+  .juli-root .date-stack .date-mega,
+  .juli-root .date-time-num { font-size: clamp(72px, 26vw, 140px); }
+  .juli-root .date-mega--accent .date-month { font-size: clamp(72px, 26vw, 140px); }
+  .juli-root .date-row { gap: 14px; }
+  .juli-root .date-label { font-size: 10px; padding-bottom: 8px; }
+  .juli-root .date-time-unit { font-size: 11px; padding-bottom: 10px; }
+  .juli-root .countdown-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .juli-root .cd-cell { padding: 14px 0; }
+  .juli-root .cd-value { font-size: clamp(40px, 14vw, 64px); }
+  .juli-root .cd-label { font-size: 9px; }
+
+  .juli-root .loc-title { font-size: clamp(56px, 22vw, 110px); }
+  .juli-root .loc-val { font-size: 18px; }
+  .juli-root .loc-meta-row { grid-template-columns: 88px 1fr; gap: 10px; padding: 10px 0; }
+  .juli-root .loc-key { font-size: 9px; }
+  .juli-root .loc-cta { font-size: 14px; padding: 14px 18px; gap: 10px; }
+  .juli-root .loc-right { min-height: 300px; }
+  .juli-root .loc-map { min-height: 300px; }
+
+  .juli-root .rsvp-title,
+  .juli-root .msg-title { font-size: clamp(48px, 15vw, 96px); }
+  .juli-root .rsvp-sub { font-size: 15px; }
+  .juli-root .rsvp-deadline { padding: 10px 14px; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .juli-root .rsvp-deadline-date { font-size: 16px; }
+  .juli-root .rsvp-head { margin-bottom: 40px; }
+  .juli-root .guest-card { padding: 24px 18px; }
+  .juli-root .guest-card-num { font-size: 36px; }
+  .juli-root .guest-card-label { font-size: 10px; letter-spacing: 0.3em; }
+  .juli-root .field-input { font-size: 18px; }
+  .juli-root .field-input::placeholder { font-size: 15px; }
+  .juli-root .rsvp-actions { flex-direction: column; align-items: stretch; }
+  .juli-root .rsvp-add,
+  .juli-root .rsvp-submit { justify-content: center; width: 100%; }
+  .juli-root .rsvp-success-num { font-size: clamp(96px, 28vw, 160px); }
+  .juli-root .rsvp-success-text h3 { font-size: clamp(32px, 9vw, 56px); }
+
+  .juli-root .msg-textarea { padding: 18px; font-size: 16px; min-height: 140px; }
+  .juli-root .msg-bottom { flex-direction: column; }
+  .juli-root .msg-from { min-width: 0; width: 100%; }
+  .juli-root .msg-send { justify-content: center; width: 100%; }
+
+  .juli-root .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 280px;
+    padding: 2px 12px;
+  }
+  .juli-root .gallery-cell { grid-column: 1 / -1; }
+
+  .juli-root .footer-grid {
+    grid-template-columns: 1fr;
+    padding: 48px 16px 32px;
+    gap: 28px;
+  }
+  .juli-root .footer-bottom { padding: 16px; flex-direction: column; gap: 6px; text-align: center; }
+  .juli-root .footer-big { font-size: clamp(40px, 14vw, 64px); }
+  .juli-root .scroll-cue { font-size: 9px; }
+} */
+
+@media (max-width: 420px) {
+  .juli-root .hero-center { padding: 14px 12px 14px; gap: 14px; }
+  .juli-root .jxv-badge { padding: 5px 9px; gap: 6px; }
+  .juli-root .jxv-mark { font-size: 14px; }
+  .juli-root .jxv-sub { font-size: 8px; }
+  .juli-root .lockup { gap: 8px; }
+  .juli-root .lockup-word { font-size: 18px; letter-spacing: 0.06em; }
+  .juli-root .lockup-mark { height: 24px; }
+  .juli-root .logo-word--juli { font-size: clamp(80px, 48vw, 200px); }
+  .juli-root .logo-fifteen-overlay { font-size: 18px; padding: 2px 8px 1px; }
+  .juli-root .hero-bottom-row { padding-top: 10px; }
+  .juli-root .hb-val { font-size: 12px; }
+  .juli-root .hb-key { font-size: 7px; letter-spacing: 0.28em; }
+  .juli-root .marquee-text { font-size: 12px; }
+  .juli-root .scroll-cue { display: none; }
 }
