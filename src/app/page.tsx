@@ -1,4 +1,5 @@
 import JuliPage from '@/components/invitacion/page'
+import { env } from '@/env';
 import { Metadata } from 'next';
 import React from 'react'
 
@@ -32,9 +33,9 @@ export const metadata: Metadata = {
   },
 };
 const Page = () => {
-
+  const event_id = env.EVENT_ID
   return (
-    <JuliPage />
+    <JuliPage event_id={event_id} />
   )
 }
 

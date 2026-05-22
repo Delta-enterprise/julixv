@@ -6,16 +6,18 @@ import { GuestCard } from "./guest-card";
 import { GuestListPrintable, GuestListPrintableEmma } from "./pdf";
 import React, { useEffect } from "react";
 import { GuestCardInactive } from "./guest-card-inactive";
-import { Guest } from "@prisma/client";
+import { Guest, Message } from "@prisma/client";
+import { MessageCard } from "./messagecard";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 
 export function GuestTabs({
   guests,
   setGuests,
-  emma,
+  messages,
 }: {
   guests: Guest[];
   setGuests: React.Dispatch<React.SetStateAction<Guest[]>>;
-  emma?: boolean;
+  messages: Message[];
 }) {
   // `rsvp: true` = confirmed/active, `rsvp: false` = declined/removed
   const [activeGuests, setActiveGuests] = React.useState<Guest[]>(
@@ -52,11 +54,9 @@ export function GuestTabs({
             Lista de Invitados ({totalGuests}) 
           </div>
           <div className="flex items-center gap-2">
-            {emma ? (
-              <GuestListPrintableEmma guests={activeGuests} />
-            ) : (
+           
               <GuestListPrintable guests={activeGuests} />
-            )}
+          
           </div>
         </CardTitle>
         <CardDescription>Todos los invitados para este evento</CardDescription>
@@ -64,9 +64,11 @@ export function GuestTabs({
 
       <CardContent>
         <Tabs defaultValue="active" className="w-full">
-          <TabsList className="grid grid-cols-2 w-full mb-4">
+          <TabsList className=" grid grid-cols-2  md:grid-cols-3  w-full mb-4">
             <TabsTrigger value="active">Confirmaciones</TabsTrigger>
-            <TabsTrigger value="declined">No confirmados</TabsTrigger>
+            <TabsTrigger className="hidden md:block" value="declined">No confirmados</TabsTrigger>
+            <TabsTrigger value="messages"> {`Mensajes (${messages.length})`}</TabsTrigger>
+
           </TabsList>
 
           {/* TAB ACTIVOS */}
@@ -112,6 +114,21 @@ export function GuestTabs({
               )}
             </div>
           </TabsContent>
+
+          {/* TAB MENSAJES */}
+          <TabsContent value="messages">
+            <div className="space-y-4 max-h-[50vh] overflow-y-auto">
+              {messages.length ? (
+                messages.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((message, index) => (
+                 <MessageCard key={index} message={message}   />
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No hay mensajes.
+                </p>
+              )}
+            </div>
+            </TabsContent>
         </Tabs>
       </CardContent>
     </Card>

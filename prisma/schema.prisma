@@ -25,6 +25,8 @@ model Event {
   admin           Admin?   @relation(fields: [adminId], references: [id])
   adminId         String?
 
+  messages        Message[]
+
   code            String?  @unique
 }
 
@@ -58,4 +60,13 @@ model Admin {
   updatedAt DateTime @updatedAt
 
   events    Event[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  message   String
+  from      String
 }

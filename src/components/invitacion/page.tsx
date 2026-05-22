@@ -9,6 +9,8 @@ import React, {
   RefObject,
 } from 'react';
 import '@/app/styles.css';
+import RSVPForm from '../forms/confirm-asistance';
+import MessageSection from '../forms/message';
 
 /* =========================================================
  *  Types
@@ -1185,68 +1187,68 @@ function RSVPSection() {
  *  MESSAGE
  * ======================================================= */
 
-function MessageSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { threshold: 0.2 });
-  const [msg, setMsg] = useState('');
-  const [sender, setSender] = useState('');
-  const [sent, setSent] = useState(false);
+// function MessageSection() {
+//   const ref = useRef<HTMLElement>(null);
+//   const inView = useInView(ref, { threshold: 0.2 });
+//   const [msg, setMsg] = useState('');
+//   const [sender, setSender] = useState('');
+//   const [sent, setSent] = useState(false);
 
-  return (
-    <section className="message" ref={ref}>
-      <div className="msg-eyebrow">/03 — MENSAJE</div>
-      <h2 className={`msg-title ${inView ? 'is-in' : ''}`}>
-        <span>DEJALE UN</span>
-        <span className="msg-title-accent">MENSAJE</span>
-        <span>A JULI</span>
-      </h2>
+//   return (
+//     <section className="message" ref={ref}>
+//       <div className="msg-eyebrow">/03 — MENSAJE</div>
+//       <h2 className={`msg-title ${inView ? 'is-in' : ''}`}>
+//         <span>DEJALE UN</span>
+//         <span className="msg-title-accent">MENSAJE</span>
+//         <span>A JULI</span>
+//       </h2>
 
-      {sent ? (
-        <div className="msg-sent">
-          <div className="msg-sent-mark">♥</div>
-          <p>MENSAJE ENVIADO</p>
-          <button
-            type="button"
-            className="msg-again"
-            onClick={() => { setSent(false); setMsg(''); setSender(''); }}
-          >
-            ESCRIBIR OTRO
-          </button>
-        </div>
-      ) : (
-        <form
-          className="msg-form"
-          onSubmit={(e) => { e.preventDefault(); setSent(true); console.log({ sender, msg }); }}
-        >
-          <textarea
-            className="msg-textarea"
-            placeholder="Escribí algo lindo para ella..."
-            value={msg}
-            onChange={(e) => setMsg(e.target.value)}
-            rows={5}
-            required
-          />
-          <div className="msg-bottom">
-            <input
-              className="msg-from"
-              type="text"
-              placeholder="DE PARTE DE..."
-              value={sender}
-              onChange={(e) => setSender(e.target.value)}
-              required
-            />
-            <button type="submit" className="msg-send">
-              ENVIAR
-              <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
-                <path d="M0 7H20M20 7L14 1M20 7L14 13" stroke="currentColor" strokeWidth="2"/>
-              </svg>
-            </button>
-          </div>
-        </form>
-      )}
-    </section>
-  );
-}
+//       {sent ? (
+//         <div className="msg-sent">
+//           <div className="msg-sent-mark">♥</div>
+//           <p>MENSAJE ENVIADO</p>
+//           <button
+//             type="button"
+//             className="msg-again"
+//             onClick={() => { setSent(false); setMsg(''); setSender(''); }}
+//           >
+//             ESCRIBIR OTRO
+//           </button>
+//         </div>
+//       ) : (
+//         <form
+//           className="msg-form"
+//           onSubmit={(e) => { e.preventDefault(); setSent(true); console.log({ sender, msg }); }}
+//         >
+//           <textarea
+//             className="msg-textarea"
+//             placeholder="Escribí algo lindo para ella..."
+//             value={msg}
+//             onChange={(e) => setMsg(e.target.value)}
+//             rows={5}
+//             required
+//           />
+//           <div className="msg-bottom">
+//             <input
+//               className="msg-from"
+//               type="text"
+//               placeholder="DE PARTE DE..."
+//               value={sender}
+//               onChange={(e) => setSender(e.target.value)}
+//               required
+//             />
+//             <button type="submit" className="msg-send">
+//               ENVIAR
+//               <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+//                 <path d="M0 7H20M20 7L14 1M20 7L14 13" stroke="currentColor" strokeWidth="2"/>
+//               </svg>
+//             </button>
+//           </div>
+//         </form>
+//       )}
+//     </section>
+//   );
+// }
 
 /* =========================================================
  *  FOOTER
@@ -1286,15 +1288,15 @@ function Footer() {
  *  PAGE ROOT
  * ======================================================= */
 
-export default function JuliPage() {
+export default function JuliPage({ event_id }: { event_id: string }) {
   return (
     <div className="juli-root app has-grain">
       <Hero />
       <DateSection />
       <GalleryBand />
       <LocationSection />
-      <RSVPSection />
-      <MessageSection />
+      <RSVPForm event_id={event_id} />
+      <MessageSection event_id={event_id} />
       <Footer />
     </div>
   );

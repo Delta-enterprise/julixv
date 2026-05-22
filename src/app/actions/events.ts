@@ -1,13 +1,14 @@
 "use server";
 
 import { z } from "zod";
-import { Prisma, Event, Guest, Admin } from "@prisma/client";
+import { Prisma, Event, Guest, Admin, Message } from "@prisma/client";
 import { db } from "@/server/db";
 
 // Type aliases con relaciones
 export type EventWithRelations = Event & {
   admin: Admin | null;
   guests: Guest[];
+  messages: Message[];
 };
 
 export interface GetEventResponse {
@@ -25,6 +26,7 @@ export interface GetEventsResponse {
 const eventWithRelations = {
   admin: true,
   guests: true,
+  messages: true,
 } satisfies Prisma.EventInclude;
 
 // ─────────────────────────────────────────────
@@ -67,6 +69,7 @@ export async function get_event_complete(id: string): Promise<GetEventResponse> 
     eventData.guests.sort((a, b) =>
       a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
     );
+    console.log("🚀 ~ get_event_complete ~ eventData:", eventData)
 
     return { event: eventData as EventWithRelations, status: 200 };
   } catch (error) {
