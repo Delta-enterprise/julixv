@@ -17,7 +17,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from "@/component
 
 import {GuestListPrintable} from "./pdf";
 import { GuestTabs } from "./tabs-guest";
-import { Guest } from "@prisma/client";
+import { Guest, Message } from "@prisma/client";
 
 function deactivateDuplicates(guests: Guest[]): Guest[] {
   const byNameEmail = new Map<string, string>(); // key = name_email
@@ -46,17 +46,17 @@ function deactivateDuplicates(guests: Guest[]): Guest[] {
 }
 
 
-const GuestList = ({ guestsProps , emma }: { guestsProps: Guest[], emma?: boolean }) => {
+const GuestList = ({ guestsProps ,  messagesProps }: { guestsProps: Guest[], messagesProps: Message[] }) => {
   const [guests, setGuests] = React.useState(deactivateDuplicates(guestsProps))
   
-  return !guests || guests.length === 0 ? (
+  return (!guests  || guests.length === 0) && (!messagesProps || messagesProps.length === 0) ? (
     <div className="text-center py-8 text-gray-500">
       <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
       <p>No hay invitados registrados para este evento</p>
     </div>
   ) : (
     <>
-     <GuestTabs emma={emma} guests={guests} setGuests={setGuests} />
+     <GuestTabs messages={messagesProps}  guests={guests} setGuests={setGuests} />
     </>
   );
 };

@@ -54,7 +54,7 @@ const EventDetailsPage = async ( ) => {
 
   // Ensure the slug in the URL matches the event the JWT was issued for,
   // so admins can't browse to another event's dashboard by changing the URL.
-  if ("VCXV" !== authData.eventName) {
+  if ("Juli XV" !== authData.eventName) {
     redirect("/login");
   }
 
@@ -90,8 +90,9 @@ const EventDetailsPage = async ( ) => {
   }
 
   const event = res.event;
-  const { admin, guests } = event as EventWithRelations;
-  const isEmmaEvent = event.name === "emmaxv";
+  const { admin, guests, messages } = event as EventWithRelations;
+
+  console.log(messages);
 
   return (
     <div className="container mx-auto p-6 max-w-6xl space-y-6">
@@ -120,7 +121,7 @@ const EventDetailsPage = async ( ) => {
 
       {/* Guest List */}
       <Card>
-        <GuestList emma={isEmmaEvent} guestsProps={guests} />
+        <GuestList messagesProps={messages} guestsProps={guests} />
       </Card>
     </div>
   );
