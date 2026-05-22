@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import './globals.css'
 import { Metadata } from 'next';
+import { Toaster } from '@/components/ui/toaster';
 
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-     
+     <Toaster></Toaster>
       <body>
         {children}
       </body>
