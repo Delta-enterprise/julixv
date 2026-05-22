@@ -24,14 +24,14 @@ export async function sendEmail({ to, subject, html }: SendEmailData) {
          // Tu contraseña
     //      user: "agustincastellanofotografia@gmail.com",       // Tu nombre de usuario
     // pass: "mbpe lytz zeua uhwv", 
-      user: "vcxv.3005@gmail.com",       // Tu nombre de usuario
-      pass: "viju hsem jiss loal", 
+      user: "julixv2706@gmail.com",       // Tu nombre de usuario
+      pass: "kouk zyzk nkfv xcmm", 
     },
   });
 
   // Configura el email que se enviará
   const info = await transporter.sendMail({
-    from: `Invitaciones <vcxv.3005@gmail.com>`, // Remitente
+    from: `Invitaciones <julixv2706@gmail.com>`, // Remitente
     to,                                         // Destinatario
     subject,                                    // Asunto del correo
     html,                                       // Contenido del correo (en HTML)
