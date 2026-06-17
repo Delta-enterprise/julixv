@@ -48,7 +48,8 @@ model Guest {
   comments               String?  // The shared "comments" field from the form
 
   createdAt              DateTime @default(now())
-
+  nroPulsera             Int?
+  mesa               Int?
   @@index([eventId])
 }
 
