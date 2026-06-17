@@ -49,7 +49,7 @@ export default function RSVPForm({ event_id }: { event_id: string }) {
 
   const deadline = new Date(2026, 5, 17); // June 17, 2026
   const currentDate = new Date();
-  const isDeadlinePassed = currentDate > deadline;
+  const isDeadlinePassed = false;
 
   const form = useForm({
     resolver: zodResolver(RSVPFormSchema),
